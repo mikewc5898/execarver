@@ -1,0 +1,43 @@
+README
+Author: Michael Coulter
+
+execarver.py
+
+Program which carves PE files such as windows executable files from network traffic.
+Tested on Kali Linux 64x Virtual Machine running on 2019.1 update.
+
+Program runs in two modes.
+
+Usage: execarver.py [-i interface] [-r tracefile] expression
+
+-i interface runs program in interactive mode which scans over specified interface and extracts executables after user terminates with ctrl + c.
+
+-r tracefile reads through a tracefile to etract any executables in TCP traffic stored in file
+
+the optional expression serves as a filter using BPF syntax in order to filter packets from traffic.
+
+Using the scapy framework, tcp sessions, collections of packets to each source port, are scanned searching for a magic number "MZ". When a file header is found in a session, the file from the header starting at "MZ" to the end of the session is taken to be the executable. This extracted executable is saved in the same directory as the program.
+
+Sample session in interactive mode:
+
+root@kali:~/Documents# python execarver.py -i eth0
+Sniffing Packets
+^CFile-Name: winamp295.exe  Content-Length: 2478784
+root@kali:~/Documents#
+
+Downloaded file:
+-rw-r--r-- 1 root root 2478832 Feb 21 23:38 winamp295.exe
+
+*file tested and runs on Windows Machine
+
+
+
+
+
+
+
+
+
+
+
+
